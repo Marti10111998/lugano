@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Varna Digital Twin — Spectral UHI (Legend Top-Right)</title>
+  <title>Lugano Digital Twin — Spectral UHI (Legend Top-Right)</title>
 
   <!-- UI / 3D -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -105,7 +105,7 @@
       ⠿ Drag panel
     </div>
 
-    <div class="text-lg font-semibold">Varna Digital Twin</div>
+    <div class="text-lg font-semibold">Lugano Digital Twin</div>
 
     <div class="grid grid-cols-2 gap-3">
       <div class="col-span-2">
@@ -612,12 +612,12 @@
     }
 
     // ==========================
-    // Weather + UHI (realtime) — VARNA
+    // Weather + UHI (realtime) — Lugano
     // ==========================
     async function fetchUHIAndUpdate(){
-      // Varna center (urban) and a rural reference ~8–10 km WNW
-      const urbanURL = `https://api.openweathermap.org/data/2.5/weather?lat=43.214&lon=27.914&units=metric&appid=${weatherApiKey}`;
-      const ruralURL = `https://api.openweathermap.org/data/2.5/weather?lat=43.214&lon=27.814&units=metric&appid=${weatherApiKey}`;
+  // Lugano center (urban) and a nearby western reference (airport area)
+  const urbanURL = `https://api.openweathermap.org/data/2.5/weather?lat=46.0037&lon=8.9511&units=metric&appid=${weatherApiKey}`;
+  const ruralURL = `https://api.openweathermap.org/data/2.5/weather?lat=46.0045&lon=8.9105&units=metric&appid=${weatherApiKey}`;
 
       try {
         const [uRes, rRes] = await Promise.all([resilientFetch(urbanURL), resilientFetch(ruralURL)]);
@@ -1223,17 +1223,17 @@ const LABELS = {
     }
 
     // ==========================
-    // Cesium App — VARNA
+    // Cesium App — Lugano
     // ==========================
     async function startCesiumApp(){
       loadTsStore();
 
       const viewerOpts = { baseLayerPicker:true, timeline:false, animation:false, shadows:true };
 
-      // Default camera rectangle over Varna
+      // Default camera rectangle over Lugano
       Cesium.Camera.DEFAULT_VIEW_RECTANGLE = Cesium.Rectangle.fromDegrees(
-        27.85, 43.17,   // west, south
-        28.02, 43.27    // east, north
+        8.90, 45.98,   // west, south
+        9.02, 46.04    // east, north
       );
       Cesium.Camera.DEFAULT_VIEW_FACTOR = 0.5;
 
@@ -1244,9 +1244,9 @@ const LABELS = {
       viewer.terrainProvider = await Cesium.createWorldTerrainAsync();
       viewer.scene.globe.enableLighting = true;
 
-      // Load Varna buildings (rename your file to this)
+      // Load Lugano buildings (rename your file to this)
       const buildingSelector = document.getElementById("buildingSelector");
-      const dataSource = await Cesium.GeoJsonDataSource.load("varna_buildings_with_heights.geojson", { clampToGround:false });
+      const dataSource = await Cesium.GeoJsonDataSource.load("lugano_buildings_with_heights.geojson", { clampToGround:false });
       viewer.dataSources.add(dataSource);
 
       await viewer.zoomTo(
@@ -1732,7 +1732,7 @@ const LABELS = {
       });
     })();
 
-    // === Place UHI legend once, positioned relative to the Varna panel ===
+    // === Place UHI legend once, positioned relative to the Lugano panel ===
     (function placeLegendOnce(){
       const GAP = 12;
       const PAD = 8;
